@@ -1,0 +1,968 @@
+type: edu
+custom_name: stage4
+files:
+- name: src/converter/Main.java
+  visible: true
+  text: |
+    package converter;
+
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello World!");
+        }
+    }
+  learner_created: false
+- name: test/ConverterTest.java
+  visible: false
+  text: |
+    import converter.Main;
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+
+    import java.util.*;
+    import java.util.stream.Collectors;
+
+    class Clue {
+        String answer;
+        String input;
+
+        Clue(String answer, String input) {
+            this.answer = answer.strip();
+            this.input = input.strip();
+        }
+    }
+
+    public class ConverterTest extends StageTest<Clue> {
+        public ConverterTest() throws Exception {
+            super(Main.class);
+        }
+
+        static Map<String, String> allTests;
+
+        static {
+            allTests = new LinkedHashMap<>();
+
+            allTests.put(
+                "{\n" +
+                    "    \"transaction\": {\n" +
+                    "        \"id\": \"6753322\",\n" +
+                    "        \"number\": {\n" +
+                    "            \"@region\": \"Russia\",\n" +
+                    "            \"#number\": \"8-900-000-000\"\n" +
+                    "        },\n" +
+                    "        \"empty1\": null,\n" +
+                    "        \"empty2\": { },\n" +
+                    "        \"empty3\": \"\",\n" +
+                    "        \"inner1\": {\n" +
+                    "            \"inner2\": {\n" +
+                    "                \"inner3\": {\n" +
+                    "                    \"key1\": \"value1\",\n" +
+                    "                    \"key2\": \"value2\"\n" +
+                    "                }\n" +
+                    "            }\n" +
+                    "        },\n" +
+                    "        \"inner4\": {\n" +
+                    "            \"@\": 123,\n" +
+                    "            \"#inner4\": \"value3\"\n" +
+                    "        },\n" +
+                    "        \"inner5\": {\n" +
+                    "            \"@attr1\": 123.456,\n" +
+                    "            \"#inner4\": \"value4\"\n" +
+                    "        },\n" +
+                    "        \"inner6\": {\n" +
+                    "            \"@attr2\": 789.321,\n" +
+                    "            \"#inner6\": \"value5\"\n" +
+                    "        },\n" +
+                    "        \"inner7\": {\n" +
+                    "            \"#inner7\": \"value6\"\n" +
+                    "        },\n" +
+                    "        \"inner8\": {\n" +
+                    "            \"@attr3\": \"value7\"\n" +
+                    "        },\n" +
+                    "        \"inner9\": {\n" +
+                    "            \"@attr4\": \"value8\",\n" +
+                    "            \"#inner9\": \"value9\",\n" +
+                    "            \"something\": \"value10\"\n" +
+                    "        },\n" +
+                    "        \"inner10\": {\n" +
+                    "            \"@attr5\": null,\n" +
+                    "            \"#inner10\": null\n" +
+                    "        },\n" +
+                    "        \"inner11\": {\n" +
+                    "            \"@\": null,\n" +
+                    "            \"#\": null\n" +
+                    "        },\n" +
+                    "        \"inner12\": {\n" +
+                    "            \"@somekey\": \"attrvalue\",\n" +
+                    "            \"#inner12\": null,\n" +
+                    "            \"somekey\": \"keyvalue\",\n" +
+                    "            \"inner12\": \"notnull\"\n" +
+                    "        },\n" +
+                    "        \"\": {\n" +
+                    "            \"#\": null,\n" +
+                    "            \"secret\": \"this won't be converted\"\n" +
+                    "        }\n" +
+                    "    },\n" +
+                    "    \"meta\": {\n" +
+                    "        \"version\": 0.01\n" +
+                    "    }\n" +
+                    "}",
+
+
+                "Element:\n" +
+                    "path = transaction\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, id\n" +
+                    "value = \"6753322\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, number\n" +
+                    "value = \"8-900-000-000\"\n" +
+                    "attributes:\n" +
+                    "region = \"Russia\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, empty1\n" +
+                    "value = null\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, empty2\n" +
+                    "value = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, empty3\n" +
+                    "value = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2, inner3\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2, inner3, key1\n" +
+                    "value = \"value1\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2, inner3, key2\n" +
+                    "value = \"value2\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner4\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner4, inner4\n" +
+                    "value = \"value3\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner5\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner5, attr1\n" +
+                    "value = \"123.456\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner5, inner4\n" +
+                    "value = \"value4\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner6\n" +
+                    "value = \"value5\"\n" +
+                    "attributes:\n" +
+                    "attr2 = \"789.321\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner7\n" +
+                    "value = \"value6\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner8\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner8, attr3\n" +
+                    "value = \"value7\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9, attr4\n" +
+                    "value = \"value8\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9, inner9\n" +
+                    "value = \"value9\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9, something\n" +
+                    "value = \"value10\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner10\n" +
+                    "value = null\n" +
+                    "attributes:\n" +
+                    "attr5 = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner11\n" +
+                    "value = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner12\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner12, somekey\n" +
+                    "value = \"keyvalue\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner12, inner12\n" +
+                    "value = \"notnull\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = meta\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = meta, version\n" +
+                    "value = \"0.01\""
+            );
+
+            allTests.put(
+                "{\n" +
+                    "    \"root1\": {\n" +
+                    "        \"@attr1\": \"val1\",\n" +
+                    "        \"@attr2\": \"val2\",\n" +
+                    "        \"#root1\": {\n" +
+                    "            \"elem1\": {\n" +
+                    "                \"@attr3\": \"val3\",\n" +
+                    "                \"@attr4\": \"val4\",\n" +
+                    "                \"#elem1\": \"Value1\"\n" +
+                    "            },\n" +
+                    "            \"elem2\": {\n" +
+                    "                \"@attr5\": \"val5\",\n" +
+                    "                \"@attr6\": \"val6\",\n" +
+                    "                \"#elem2\": \"Value2\"\n" +
+                    "            }\n" +
+                    "        }\n" +
+                    "    },\n" +
+                    "    \"root2\": {\n" +
+                    "        \"@attr1\": null,\n" +
+                    "        \"@attr2\": \"\",\n" +
+                    "        \"#root2\": null\n" +
+                    "    },\n" +
+                    "    \"root3\": {\n" +
+                    "        \"@attr1\": \"val2\",\n" +
+                    "        \"@attr2\": \"val1\",\n" +
+                    "        \"#root3\": \"\"\n" +
+                    "    },\n" +
+                    "    \"root4\": \"Value4\"\n" +
+                    "}",
+
+                "Element:\n" +
+                    "path = root1\n" +
+                    "attributes:\n" +
+                    "attr1 = \"val1\"\n" +
+                    "attr2 = \"val2\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root1, elem1\n" +
+                    "value = \"Value1\"\n" +
+                    "attributes:\n" +
+                    "attr3 = \"val3\"\n" +
+                    "attr4 = \"val4\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root1, elem2\n" +
+                    "value = \"Value2\"\n" +
+                    "attributes:\n" +
+                    "attr5 = \"val5\"\n" +
+                    "attr6 = \"val6\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root2\n" +
+                    "value = null\n" +
+                    "attributes:\n" +
+                    "attr1 = \"\"\n" +
+                    "attr2 = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root3\n" +
+                    "value = \"\"\n" +
+                    "attributes:\n" +
+                    "attr1 = \"val2\"\n" +
+                    "attr2 = \"val1\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root4\n" +
+                    "value = \"Value4\""
+            );
+
+            allTests.put("{\"root1\":{\"@attr1\":\"val1\"," +
+                "\"@attr2\":\"val2\",\"#root1\":{\"elem1\":{\"" +
+                "@attr3\":\"val3\",\"@attr4\":\"val4\",\"#ele" +
+                "m1\":\"Value1\"},\"elem2\":{\"@attr5\":\"val" +
+                "5\",\"@attr6\":\"val6\",\"#elem2\":\"Value2\"" +
+                "}}},\"root2\":{\"@attr1\":null,\"@attr2\":\"" +
+                "\",\"#root2\":null},\"root3\":{\"@attr1\":\"" +
+                "val2\",\"@attr2\":\"val1\",\"#root3\":\"\"}," +
+                "\"root4\":\"Value4\"}",
+
+
+                "Element:\n" +
+                    "path = root1\n" +
+                    "attributes:\n" +
+                    "attr1 = \"val1\"\n" +
+                    "attr2 = \"val2\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root1, elem1\n" +
+                    "value = \"Value1\"\n" +
+                    "attributes:\n" +
+                    "attr3 = \"val3\"\n" +
+                    "attr4 = \"val4\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root1, elem2\n" +
+                    "value = \"Value2\"\n" +
+                    "attributes:\n" +
+                    "attr5 = \"val5\"\n" +
+                    "attr6 = \"val6\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root2\n" +
+                    "value = null\n" +
+                    "attributes:\n" +
+                    "attr1 = \"\"\n" +
+                    "attr2 = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root3\n" +
+                    "value = \"\"\n" +
+                    "attributes:\n" +
+                    "attr1 = \"val2\"\n" +
+                    "attr2 = \"val1\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = root4\n" +
+                    "value = \"Value4\""
+            );
+
+            allTests.put(
+                "{\n" +
+                    "    \"transaction\": {\n" +
+                    "        \"id\": \"13243547\",\n" +
+                    "        \"number\": {\n" +
+                    "            \"@region\": \"USA\",\n" +
+                    "            \"#number\": \"8-900-000-999\"\n" +
+                    "        },\n" +
+                    "        \"inner1\": {\n" +
+                    "            \"inner2\": {\n" +
+                    "                \"inner3\": {\n" +
+                    "                    \"key1\": \"value1\",\n" +
+                    "                    \"key2\": \"value2\"\n" +
+                    "                }\n" +
+                    "            }\n" +
+                    "        },\n" +
+                    "        \"inner4\": {\n" +
+                    "            \"@\": 123,\n" +
+                    "            \"#inner4\": \"value3\"\n" +
+                    "        },\n" +
+                    "        \"inner5\": {\n" +
+                    "            \"@attr1\": 123.456,\n" +
+                    "            \"#inner4\": \"value4\"\n" +
+                    "        },\n" +
+                    "        \"inner6\": {\n" +
+                    "            \"@attr2\": 789.321,\n" +
+                    "            \"#inner6\": \"value5\"\n" +
+                    "        },\n" +
+                    "        \"inner7\": {\n" +
+                    "            \"#inner7\": \"value6\"\n" +
+                    "        },\n" +
+                    "        \"inner8\": {\n" +
+                    "            \"@attr3\": \"value7\"\n" +
+                    "        },\n" +
+                    "        \"inner9\": {\n" +
+                    "            \"@attr4\": \"value8\",\n" +
+                    "            \"#inner9\": \"value9\",\n" +
+                    "            \"something\": \"value10\"\n" +
+                    "        },\n" +
+                    "        \"inner10\": {\n" +
+                    "            \"@attr5\": null,\n" +
+                    "            \"#inner10\": null\n" +
+                    "        },\n" +
+                    "        \"inner11\": {\n" +
+                    "            \"@\": null,\n" +
+                    "            \"#\": null\n" +
+                    "        },\n" +
+                    "        \"inner12\": {\n" +
+                    "            \"@somekey\": \"attrvalue\",\n" +
+                    "            \"#inner12\": null,\n" +
+                    "            \"somekey\": \"keyvalue\",\n" +
+                    "            \"inner12\": \"notnull\"\n" +
+                    "        },\n" +
+                    "        \"\": {\n" +
+                    "            \"#\": null,\n" +
+                    "            \"secret\": \"this won't be converted\"\n" +
+                    "        }\n" +
+                    "    },\n" +
+                    "    \"meta\": {\n" +
+                    "        \"version\": 0.01\n" +
+                    "    }\n" +
+                    "}",
+
+
+                "Element:\n" +
+                    "path = transaction\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, id\n" +
+                    "value = \"13243547\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, number\n" +
+                    "value = \"8-900-000-999\"\n" +
+                    "attributes:\n" +
+                    "region = \"USA\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2, inner3\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2, inner3, key1\n" +
+                    "value = \"value1\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner1, inner2, inner3, key2\n" +
+                    "value = \"value2\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner4\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner4, inner4\n" +
+                    "value = \"value3\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner5\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner5, attr1\n" +
+                    "value = \"123.456\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner5, inner4\n" +
+                    "value = \"value4\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner6\n" +
+                    "value = \"value5\"\n" +
+                    "attributes:\n" +
+                    "attr2 = \"789.321\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner7\n" +
+                    "value = \"value6\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner8\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner8, attr3\n" +
+                    "value = \"value7\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9, attr4\n" +
+                    "value = \"value8\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9, inner9\n" +
+                    "value = \"value9\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner9, something\n" +
+                    "value = \"value10\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner10\n" +
+                    "value = null\n" +
+                    "attributes:\n" +
+                    "attr5 = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner11\n" +
+                    "value = \"\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner12\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner12, somekey\n" +
+                    "value = \"keyvalue\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = transaction, inner12, inner12\n" +
+                    "value = \"notnull\"\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = meta\n" +
+                    "\n" +
+                    "Element:\n" +
+                    "path = meta, version\n" +
+                    "value = \"0.01\""
+            );
+        }
+
+        @Override
+        public List<TestCase<Clue>> generate() {
+
+            List<TestCase<Clue>> tests = new ArrayList<>();
+
+            for (String input : allTests.keySet()) {
+                String answer = allTests.get(input);
+
+                TestCase<Clue> test = new TestCase<>();
+                test.addFile("test.txt", input);
+                test.setAttach(new Clue(answer, input));
+
+                tests.add(test);
+            }
+
+            return tests;
+        }
+
+        @Override
+        public CheckResult check(String reply, Clue clue) {
+
+            String user = reply.strip();
+            String answer = clue.answer.strip();
+
+            List<String> userLines = user
+                .lines()
+                .map(String::strip)
+                .map(e -> e.replaceAll("\\s+", " "))
+                .filter(e -> e.length() > 0)
+                .collect(Collectors.toList());
+
+            List<String> answerLines = answer
+                .lines()
+                .map(String::strip)
+                .map(e -> e.replaceAll("\\s+", " "))
+                .filter(e -> e.length() > 0)
+                .collect(Collectors.toList());
+
+            if (userLines.size() < answerLines.size()) {
+
+                LinkedHashSet<String> answerSet = new LinkedHashSet<>();
+                answerSet.addAll(answerLines);
+                for (String line : userLines) {
+                    answerSet.remove(line);
+                }
+                if (!answerSet.isEmpty()) {
+                    String notFoundLine = answerSet.stream().findFirst().get();
+                    return new CheckResult(false,
+                        "The following line is not found in output:\n" + notFoundLine);
+                }
+                return new CheckResult(false);
+
+            } else if (userLines.size() > answerLines.size()) {
+
+                LinkedHashSet<String> userSet = new LinkedHashSet<>();
+                userSet.addAll(answerLines);
+                for (String line : answerLines) {
+                    userSet.remove(line);
+                }
+                if (!userSet.isEmpty()) {
+                    String excessLine = userSet.stream().findFirst().get();
+                    return new CheckResult(false,
+                        "The following line is not needed in output:\n" + excessLine);
+                }
+                return new CheckResult(false);
+
+            } else {
+
+                for (int i = 0; i < userLines.size(); i++) {
+
+                    String userLine = userLines.get(i);
+                    String answerLine = answerLines.get(i);
+
+                    if (!userLine.equals(answerLine)) {
+                        return new CheckResult(false,
+                            "The following line was expected:\n" + answerLine + "\n" +
+                                "The following line was given:\n" + userLine);
+                    }
+                }
+
+                return CheckResult.correct();
+            }
+        }
+    }
+  learner_created: false
+- name: src/converter/logic/XMLConverter.java
+  visible: true
+  text: |+
+    package converter.logic;
+
+    import converter.domain.Element;
+
+    import java.util.ArrayList;
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
+
+    public class XMLConverter extends Converter {
+
+        @Override
+        public void convertToObject() {
+            parse(inputString, inputString, new Element());
+
+        }
+
+        private void parse(String s, String input, Element element) {
+
+            if(s.contains("<")){
+                Pattern pattern1 = Pattern.compile("(<(\\w+)[ ]?(.*?)>)");
+                Matcher matcher1 = pattern1.matcher(s);
+
+                if(matcher1.find()){
+                    String path = matcher1.group(2);
+                    element.addPath(path);
+
+                    if(matcher1.group(3)!=null&&!matcher1.group(3).isEmpty()){
+                        parseAttributes(matcher1.group(3),element);
+                        if(matcher1.group(3).endsWith("/")){
+                            //element.setValue("null");
+                            s= "null";
+                            input = input.replaceFirst(matcher1.group(), "");
+                        }
+                    }
+                    Pattern pattern2 = Pattern.compile("</"+path+">");
+                    Matcher matcher2 = pattern2.matcher(s);
+                    if (matcher2.find()){
+                        s = s.substring(matcher1.end(), matcher2.start()).trim();
+                        if(input.endsWith(matcher2.group())){
+                            input=input.replaceFirst(matcher1.group(),"")
+                                    .replaceFirst(matcher2.group(),"").trim();
+                        }else {
+                            input=input.replaceFirst(matcher1.group()+".*?"+matcher2.group(),"");
+                        }
+                    }
+                }
+                if(s.contains("<")){
+                    parse(s,input,new Element(new ArrayList<>(element.getPaths())));
+                }else {
+                    element.setValue(s);
+                    ArrayList<String> paths = new ArrayList<>(element.getPaths());
+                    paths.remove(paths.size()-1);
+                    parse(input,input,new Element(paths));
+                }
+                if(!element.getPaths().isEmpty()){
+                    add(element);
+                }
+            }
+        }
+
+        private void parseAttributes(String s, Element element) {
+            Pattern pattern = Pattern.compile("(\\w+?[ ]?=[ ]?\".+?\")");//todo no spaces
+            Matcher matcher = pattern.matcher(s);
+            while (matcher.find()) {
+                String[] array = matcher.group(1).split("=");
+                element.addToMap(array[0].trim(), array[1].replaceAll("\"", "").trim());
+            }
+        }
+    }
+
+  learner_created: true
+- name: src/converter/domain/Element.java
+  visible: true
+  text: |
+    package converter.domain;
+
+    import java.util.ArrayList;
+
+    import java.util.LinkedHashMap;
+    import java.util.Objects;
+    import java.util.TreeMap;
+
+    public class Element {
+        private final ArrayList<String> paths;
+        private String value;
+        private final LinkedHashMap<String,  String> attributesMap;
+
+        public Element() {
+            paths=new ArrayList<>();
+            value=null;
+            attributesMap =  new LinkedHashMap<>();
+        }
+
+        public Element(ArrayList<String> paths) {
+            this.paths = paths;
+            value=null;
+            attributesMap =  new LinkedHashMap<>();
+        }
+
+        public void addPath(String path) {
+            if(!paths.contains(path)){
+                paths.add(path);
+            }
+
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public ArrayList<String> getPaths() {
+            return paths;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public LinkedHashMap<String, String> getAttributesMap() {
+            return attributesMap;
+        }
+
+        public void addToMap(String  key, String  value){
+            attributesMap.putIfAbsent(key,value);
+        }
+
+        public String mapToXMLString(){
+            StringBuilder stringBuilder = new StringBuilder();
+            for(String key : attributesMap.keySet()){
+                stringBuilder.append(" ").append(key).append(" = \"").append(attributesMap.get(key)).append("\"");
+            }
+            return stringBuilder.toString();
+        }
+
+        public String mapToJSONString(){
+            StringBuilder stringBuilder = new StringBuilder();
+            for(String key : attributesMap.keySet()){
+                stringBuilder.append("\t\t\"@").append(key).append("\" : \"").append(attributesMap.get(key)).append("\",\n");
+            }
+            return stringBuilder.toString();
+        }
+
+        public String toString(){
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Element:\n")
+                    .append("path = ").
+                    append(paths.toString().replaceAll("\\[","").replaceAll("]",""))
+                    .append(value!=null?(value.equals("null")?"\nvalue = null":"\nvalue = \""+value+"\""):"")
+                    .append("\n")
+                    .append(attributesMap.isEmpty()?"":"attributes:\n");
+            for(String key : attributesMap.keySet()){
+                stringBuilder.append(key).append(" = \"").append(attributesMap.get(key)).append("\"\n");
+            }
+            return stringBuilder.toString();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Element element = (Element) o;
+            return Objects.equals(paths, element.paths) &&
+                    Objects.equals(value, element.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(paths, value);
+        }
+    }
+  learner_created: true
+- name: src/converter/logic/Converter.java
+  visible: true
+  text: |
+    package converter.logic;
+
+    import converter.domain.Element;
+
+    import java.util.ArrayList;
+
+    public abstract class Converter {
+        protected String inputString;
+        protected ArrayList<Element> elements;
+
+        public Converter() {
+            inputString="";
+            this.elements = new ArrayList<>();
+        }
+
+        public void setInputString(String inputString) {
+            this.inputString = inputString;
+        }
+
+        public final void add(Element element){
+            elements.add(0,element);
+        }
+
+        public abstract void convertToObject();
+
+        public void printAsXML(){
+
+            for (Element element : elements) {
+                System.out.println("<"+element.getPaths().toString()
+                        +(element.getAttributesMap().isEmpty()?"":""+element.mapToXMLString())
+                        +(element.getValue().equals("null")?"/>":(">"+ element.getValue())+"</"+ element.getPaths()+">"));
+            }
+        }
+
+        public void printASJSON(){
+            for (Element object: elements) {
+                System.out.println(object.getAttributesMap().isEmpty()?
+                        ("{\""+object.getPaths().toString()+"\":\""+object.getValue()+"\"}")
+                        :("{\n" +
+                        "\t\""+ object.getPaths()+"\" : {\n" +
+                        object.mapToJSONString()+
+                        "\t\t\"#"+ object.getPaths()+"\" : "+(object.getValue().equals("null")?"null\n":"\""+object.getValue()+"\"\n")+
+                        "\t}\n}"));
+            }
+        }
+
+        public final void print(){
+            for(Element e : elements){
+                System.out.println(e);
+            }
+        }
+    }
+  learner_created: true
+- name: src/converter/logic/ConverterMethod.java
+  visible: true
+  text: |
+    package converter.logic;
+
+    public class ConverterMethod{
+        Converter converter;
+
+        public void setConverter(Converter converter) {
+            this.converter = converter;
+        }
+
+        public Converter getConverter() {
+            return converter;
+        }
+
+        public void convertToObject(){
+            converter.convertToObject();
+        }
+
+        public void printAsXML(){
+            converter.printAsXML();
+        }
+
+        public void  printASJSON(){
+            converter.printASJSON();
+        }
+
+        public void print() {
+            converter.print();
+        }
+    }
+  learner_created: true
+- name: src/converter/UserInterface/UI.java
+  visible: true
+  text: |
+    package converter.UserInterface;
+
+    import converter.logic.ConverterMethod;
+    import converter.logic.JSONConverter;
+    import converter.logic.XMLConverter;
+
+    import java.io.File;
+    import java.io.FileNotFoundException;
+    import java.util.Scanner;
+
+    public class UI {
+        private Scanner scanner;
+        private final ConverterMethod converterMethod;
+
+        public UI() {
+            try {
+                this.scanner = new Scanner(new File("test1.txt"));
+            } catch (FileNotFoundException e) {
+                //e.printStackTrace();
+                System.out.println("no file found");
+                this.scanner=null;
+            }
+            converterMethod = new ConverterMethod();
+        }
+
+        public void start() {
+            StringBuilder stringBuilder = new StringBuilder();
+            String input;
+            while (scanner.hasNextLine()){
+                input= scanner.nextLine();
+                stringBuilder.append(input);
+
+            }
+            scanner.close();
+
+
+            if(stringBuilder.toString().contains("{")){
+                converterMethod.setConverter(new JSONConverter());
+                converterMethod.getConverter().setInputString(stringBuilder.toString());
+                converterMethod.convertToObject();
+                //converterMethod.printAsXML();
+            }else {
+                converterMethod.setConverter(new XMLConverter());
+                converterMethod.getConverter().setInputString(stringBuilder.toString());
+                converterMethod.convertToObject();
+                //converterMethod.printASJSON();
+                converterMethod.print();
+            }
+        }
+    }
+  learner_created: true
+- name: src/converter/logic/JSONConverter.java
+  visible: true
+  text: |
+    package converter.logic;
+
+    import converter.domain.Element;
+
+    import java.util.regex.Pattern;
+
+    public class JSONConverter extends Converter {
+
+        @Override
+        public void convertToObject() {
+
+
+           /* pattern = Pattern.compile("\"([#|@]?\\w+)\" : ([\"]?(.+?)([\"|,]|$)|null|\\{)");
+            matcher = pattern.matcher(inputString);
+            while (matcher.find()) {
+                Element object = new Element();
+                String group1 = matcher.group(1);
+                if (group1.startsWith("@")) {
+                    group1 = group1.replaceFirst("@", "");
+                    object.getAttributesMap().put(group1, matcher.group(3));
+                } else if (group1.startsWith("#")) {
+                    object.setValue(matcher.group(3) == null ? "null" : matcher.group(3));
+                } else {
+                    object.addPath(group1);
+                }
+                add(object);
+            }*/
+        }
+    }
+  learner_created: true
+feedback_link: https://hyperskill.org/projects/61/stages/332/implement
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Tue, 15 Dec 2020 00:30:46 UTC
+record: 4

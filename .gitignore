@@ -1,0 +1,18 @@
+# Project exclude paths
+/.gradle/
+/JSON - XML converter/task/build/
+/JSON - XML converter/task/out/
+/JSON - XML converter/task/out/production/classes/
+/JSON - XML converter/task/out/test/classes/
+/Problems/Create an euphonious word/out/
+/Problems/Create an euphonious word/out/production/classes/
+/Problems/K-combination/out/
+/Problems/K-combination/out/production/classes/
+/Problems/N-th power/out/
+/Problems/N-th power/out/production/classes/
+/Problems/Number of decompositions/out/
+/Problems/Number of decompositions/out/production/classes/
+/Problems/Number of occurrences/out/
+/Problems/Number of occurrences/out/production/classes/
+/Problems/The lucky ticket/out/
+/Problems/The lucky ticket/out/production/classes/

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="java version &quot;11.0.9+11&quot;" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/JSON - XML converter/task" />
+            <option value="$PROJECT_DIR$/Problems/Call me awesome" />
+            <option value="$PROJECT_DIR$/Problems/Check for null" />
+            <option value="$PROJECT_DIR$/Problems/Create an euphonious word" />
+            <option value="$PROJECT_DIR$/Problems/Invert an array" />
+            <option value="$PROJECT_DIR$/Problems/K-combination" />
+            <option value="$PROJECT_DIR$/Problems/List multiplicator" />
+            <option value="$PROJECT_DIR$/Problems/Multiple swaps" />
+            <option value="$PROJECT_DIR$/Problems/N-th power" />
+            <option value="$PROJECT_DIR$/Problems/No  J" />
+            <option value="$PROJECT_DIR$/Problems/Number of decompositions" />
+            <option value="$PROJECT_DIR$/Problems/Number of occurrences" />
+            <option value="$PROJECT_DIR$/Problems/Packing backeries" />
+            <option value="$PROJECT_DIR$/Problems/Photocopiers" />
+            <option value="$PROJECT_DIR$/Problems/Print content" />
+            <option value="$PROJECT_DIR$/Problems/Remove elements of a collection" />
+            <option value="$PROJECT_DIR$/Problems/Reversed list" />
+            <option value="$PROJECT_DIR$/Problems/Rotating table" />
+            <option value="$PROJECT_DIR$/Problems/Sorting sequences" />
+            <option value="$PROJECT_DIR$/Problems/Sum of numbers in the range" />
+            <option value="$PROJECT_DIR$/Problems/The lucky ticket" />
+            <option value="$PROJECT_DIR$/Problems/The sign of a number" />
+            <option value="$PROJECT_DIR$/Problems/Violator" />
+            <option value="$PROJECT_DIR$/util" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
